@@ -1,0 +1,82 @@
+[
+  {
+    "vendor_id": "V-1001",
+    "vendor_name": "Deccan Packaging Private Limited",
+    "gstin": "36AADCD4410B1ZD",
+    "pan": "AADCD4410B",
+    "bank_account_number": "62510034418",
+    "ifsc": "SBIN0020071",
+    "bank_account_holder_name": "Deccan Packaging Private Limited",
+    "onboarded_on": "2023-04-12"
+  },
+  {
+    "vendor_id": "V-1002",
+    "vendor_name": "Konkan Freight Carriers LLP",
+    "gstin": "27AAMFK2290Q1ZL",
+    "pan": "AAMFK2290Q",
+    "bank_account_number": "50200067781203",
+    "ifsc": "HDFC0000412",
+    "bank_account_holder_name": "Konkan Freight Carriers LLP",
+    "onboarded_on": "2023-07-03"
+  },
+  {
+    "vendor_id": "V-1003",
+    "vendor_name": "Brahmaputra Tea Traders",
+    "gstin": "18AFTPB8123C1ZK",
+    "pan": "AFTPB8123C",
+    "bank_account_number": "20019844563",
+    "ifsc": "SBIN0001350",
+    "bank_account_holder_name": "Anil Baruah",
+    "onboarded_on": "2023-11-21"
+  },
+  {
+    "vendor_id": "V-1004",
+    "vendor_name": "Malabar Spice Exports Private Limited",
+    "gstin": "32AAJCM5531E1ZS",
+    "pan": "AAJCM5531E",
+    "bank_account_number": "16420200008812",
+    "ifsc": "FDRL0001642",
+    "bank_account_holder_name": "Malabar Spice Exports Pvt Ltd",
+    "onboarded_on": "2024-01-15"
+  },
+  {
+    "vendor_id": "V-1005",
+    "vendor_name": "Indus Steel Fabricators Private Limited",
+    "gstin": "03AACCI7745G1ZO",
+    "pan": "AACCI7745G",
+    "bank_account_number": "4012004500077",
+    "ifsc": "PUNB0401200",
+    "bank_account_holder_name": "Indus Steel Fabricators Private Limited",
+    "onboarded_on": "2024-05-30"
+  },
+  {
+    "vendor_id": "V-1006",
+    "vendor_name": "Sapphire Office Supplies Private Limited",
+    "gstin": "07AAPCS3307N1ZW",
+    "pan": "AAPCS3307N",
+    "bank_account_number": "917020045678123",
+    "ifsc": "UTIB0000045",
+    "bank_account_holder_name": "Sapphire Office Supplies Private Limited",
+    "onboarded_on": "2024-08-19"
+  },
+  {
+    "vendor_id": "V-1007",
+    "vendor_name": "Ganga Print House",
+    "gstin": "10AAEFG6619H1ZQ",
+    "pan": "AAEFG6619H",
+    "bank_account_number": "0571102000034",
+    "ifsc": "IBKL0000571",
+    "bank_account_holder_name": "Ganga Print House",
+    "onboarded_on": "2025-02-07"
+  },
+  {
+    "vendor_id": "V-1008",
+    "vendor_name": "Coromandel Chemicals Limited",
+    "gstin": "33AABCC1182J1ZY",
+    "pan": "AABCC1182J",
+    "bank_account_number": "6150123456",
+    "ifsc": "KKBK0008612",
+    "bank_account_holder_name": "Coromandel Chemicals Limited",
+    "onboarded_on": "2025-06-24"
+  }
+]

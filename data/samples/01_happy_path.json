@@ -1,0 +1,43 @@
+{
+  "scenario": "Happy path",
+  "description": "A clean Private Limited submission from Karnataka. Every check should pass.",
+  "submission": {
+    "legal_name": "Kaveri Agro Foods Private Limited",
+    "trade_name": "Kaveri Foods",
+    "entity_type": "Private Limited",
+    "address": "Plot 42, 2nd Phase, Peenya Industrial Area",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "pincode": "560058",
+    "contact_name": "Meera Iyer",
+    "contact_email": "accounts@kaveriagro.example",
+    "contact_phone": "+91 98450 12345",
+    "gstin": "29AAHCK4821M1Z3",
+    "pan": "AAHCK4821M",
+    "bank_account_holder_name": "Kaveri Agro Foods Private Limited",
+    "bank_account_number": "50200012345671",
+    "ifsc": "HDFC0001234",
+    "documents": [
+      {
+        "doc_type": "GST_CERTIFICATE",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "PAN_CARD",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "CANCELLED_CHEQUE",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "INCORPORATION_CERT",
+        "uploaded": true,
+        "expiry_date": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "scenario": "GSTIN / PAN mismatch",
+  "description": "Every field is well-formed and the GSTIN checksum is valid, but the GSTIN was issued to a different PAN, so it belongs to another legal entity.",
+  "submission": {
+    "legal_name": "Shreeji Polymers Private Limited",
+    "trade_name": null,
+    "entity_type": "Private Limited",
+    "address": "Survey No. 118, Changodar Industrial Estate",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "pincode": "382213",
+    "contact_name": "Hardik Patel",
+    "contact_email": "finance@shreejipolymers.example",
+    "contact_phone": "+91 98250 44781",
+    "gstin": "24AAQCS9052K1ZR",
+    "pan": "AAQCS7314H",
+    "bank_account_holder_name": "Shreeji Polymers Private Limited",
+    "bank_account_number": "31890100004521",
+    "ifsc": "BARB0CHANGO",
+    "documents": [
+      {
+        "doc_type": "GST_CERTIFICATE",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "PAN_CARD",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "CANCELLED_CHEQUE",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "INCORPORATION_CERT",
+        "uploaded": true,
+        "expiry_date": null
+      }
+    ]
+  }
+}

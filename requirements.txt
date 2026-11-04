@@ -1,0 +1,7 @@
+streamlit>=1.50,<2
+pydantic>=2.7,<3
+rapidfuzz>=3.9,<4
+google-genai>=1.0
+pandas>=2.2
+altair>=5.3
+pytest>=8.0

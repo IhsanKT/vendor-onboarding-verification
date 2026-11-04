@@ -1,0 +1,43 @@
+{
+  "scenario": "Bank account in a stranger's name",
+  "description": "An LLP whose bank account is held by an unrelated individual, the classic payment-diversion pattern.",
+  "submission": {
+    "legal_name": "Nilgiri Weaves LLP",
+    "trade_name": null,
+    "entity_type": "LLP",
+    "address": "14/2 Avinashi Road, Peelamedu",
+    "city": "Coimbatore",
+    "state": "Tamil Nadu",
+    "pincode": "641004",
+    "contact_name": "Karthik Subramanian",
+    "contact_email": "karthik@nilgiriweaves.example",
+    "contact_phone": "+91 94430 27719",
+    "gstin": "33AAKFN3390D1ZF",
+    "pan": "AAKFN3390D",
+    "bank_account_holder_name": "Rohit Malhotra",
+    "bank_account_number": "38291045567",
+    "ifsc": "SBIN0007845",
+    "documents": [
+      {
+        "doc_type": "GST_CERTIFICATE",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "PAN_CARD",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "CANCELLED_CHEQUE",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "INCORPORATION_CERT",
+        "uploaded": true,
+        "expiry_date": null
+      }
+    ]
+  }
+}

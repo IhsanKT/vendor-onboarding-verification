@@ -1,0 +1,43 @@
+{
+  "scenario": "Missing and expired documents",
+  "description": "A proprietorship (bank account in the owner's name) that forgot the cancelled cheque and uploaded an old provisional GST certificate that has since lapsed.",
+  "submission": {
+    "legal_name": "Sharma Electricals",
+    "trade_name": "Sharma Electricals",
+    "entity_type": "Proprietorship",
+    "address": "Shop 9, Aminabad Market",
+    "city": "Lucknow",
+    "state": "Uttar Pradesh",
+    "pincode": "226018",
+    "contact_name": "Rajesh Sharma",
+    "contact_email": "sharmaelectricals@mail.example",
+    "contact_phone": "+91 94150 88213",
+    "gstin": "09BQWPS5512L1ZX",
+    "pan": "BQWPS5512L",
+    "bank_account_holder_name": "RAJESH SHARMA",
+    "bank_account_number": "10293847561",
+    "ifsc": "PUNB0123400",
+    "documents": [
+      {
+        "doc_type": "GST_CERTIFICATE",
+        "uploaded": true,
+        "expiry_date": "2025-06-30"
+      },
+      {
+        "doc_type": "PAN_CARD",
+        "uploaded": true,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "CANCELLED_CHEQUE",
+        "uploaded": false,
+        "expiry_date": null
+      },
+      {
+        "doc_type": "INCORPORATION_CERT",
+        "uploaded": false,
+        "expiry_date": null
+      }
+    ]
+  }
+}
