@@ -13,6 +13,7 @@ Guardrails, by design:
 from __future__ import annotations
 
 import os
+import time
 from typing import Optional, Union
 
 from core.schemas import (
@@ -24,7 +25,11 @@ from core.schemas import (
     VendorSubmission,
 )
 
-DEFAULT_MODEL = "gemini-2.5-flash"
+#: Tried in order until one returns a draft that passes the guardrails.
+DEFAULT_MODELS = ["gemini-flash-lite-latest", "gemini-3.5-flash-lite", "gemini-flash-latest"]
+DEFAULT_MODEL = DEFAULT_MODELS[0]
+CALL_TIMEOUT_MS = 10_000  # per model call
+TOTAL_BUDGET_S = 15.0  # stop trying further models after this long
 SENDER_SIGNATURE = "Vendor Onboarding Team\nProcurement Department"
 PROCUREMENT_CONTACT = "procurement@buyer.example"
 
@@ -93,16 +98,50 @@ def draft_communications(
     key = get_api_key() if api_key is _AUTO else api_key
     if not key:
         return Communications(vendor_subject=subject, vendor_email=body, internal_note=note,
-                              source="template", llm_error="No GEMINI_API_KEY configured")
-    try:
-        text = _call_gemini(str(key), _build_prompt(sub, decision, actions),
-                            model or os.environ.get("GEMINI_MODEL", DEFAULT_MODEL))
-        llm_subject, llm_body = _parse_and_guard(text, decision, stages, fallback_subject=subject)
-        return Communications(vendor_subject=llm_subject, vendor_email=llm_body,
-                              internal_note=note, source="gemini")
-    except Exception as exc:  # any failure -> deterministic template
-        return Communications(vendor_subject=subject, vendor_email=body, internal_note=note,
-                              source="template", llm_error=f"{type(exc).__name__}: {exc}"[:300])
+                              source="template", llm_error="no Gemini API key configured")
+    prompt = _build_prompt(sub, decision, actions)
+    problems: list[str] = []
+    started = time.monotonic()
+    for candidate in model_chain(model):
+        if problems and time.monotonic() - started > TOTAL_BUDGET_S:
+            problems.append("time budget used up")
+            break  # keep the live demo snappy: template rather than a long wait
+        try:
+            text = _call_gemini(str(key), prompt, candidate)
+            llm_subject, llm_body = _parse_and_guard(text, decision, stages, fallback_subject=subject)
+            return Communications(vendor_subject=llm_subject, vendor_email=llm_body,
+                                  internal_note=note, source="gemini", model=candidate)
+        except Exception as exc:  # try the next model; template if all fail
+            problems.append(_short_error(exc))
+            if problems[-1] == "Gemini key rejected":
+                break  # another model won't help with a bad key
+    reason = ", ".join(dict.fromkeys(problems)) + " - template used"
+    return Communications(vendor_subject=subject, vendor_email=body, internal_note=note,
+                          source="template", llm_error=reason)
+
+
+def model_chain(preferred: Optional[str] = None) -> list[str]:
+    """Models to try in order: explicit argument / GEMINI_MODEL first, then the defaults.
+
+    Lite models are first because drafting a short email doesn't need a larger
+    model, and they are far less likely to be overloaded (503) during a live demo.
+    """
+    first = preferred or os.environ.get("GEMINI_MODEL")
+    return list(dict.fromkeys([m for m in [first, *DEFAULT_MODELS] if m]))
+
+
+def _short_error(exc: Exception) -> str:
+    """Human-readable reason for an LLM failure (shown in the UI caption)."""
+    text = f"{type(exc).__name__} {exc}".upper()
+    if isinstance(exc, ValueError) and "LLM" in text:
+        return "Gemini draft failed a guardrail check"
+    if "API_KEY_INVALID" in text or "PERMISSION_DENIED" in text or " 401" in text or " 403" in text:
+        return "Gemini key rejected"
+    if "429" in text or "RESOURCE_EXHAUSTED" in text:
+        return "Gemini rate limit reached"
+    if any(s in text for s in ("503", "504", "UNAVAILABLE", "DEADLINE", "TIMEOUT", "TIMED OUT")):
+        return "Gemini busy"
+    return "Gemini unavailable"
 
 
 def vendor_actions(stages: list[StageResult]) -> list[str]:
@@ -219,12 +258,10 @@ def _call_gemini(api_key: str, prompt: str, model: str) -> str:
     from google import genai
     from google.genai import types
 
-    client = genai.Client(api_key=api_key, http_options=types.HttpOptions(timeout=20_000))
-    config_kwargs: dict = {"temperature": 0.2, "max_output_tokens": 1024}
-    if "flash" in model:
-        config_kwargs["thinking_config"] = types.ThinkingConfig(thinking_budget=0)
+    client = genai.Client(api_key=api_key, http_options=types.HttpOptions(timeout=CALL_TIMEOUT_MS))
     response = client.models.generate_content(
-        model=model, contents=prompt, config=types.GenerateContentConfig(**config_kwargs))
+        model=model, contents=prompt,
+        config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=1024))
     text = (response.text or "").strip()
     if not text:
         raise ValueError("Empty response from Gemini")

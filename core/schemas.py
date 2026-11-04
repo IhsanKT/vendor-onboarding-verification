@@ -211,6 +211,7 @@ class Communications(BaseModel):
     vendor_email: str
     internal_note: str
     source: str = "template"  # "gemini" or "template"
+    model: Optional[str] = None  # which Gemini model drafted it, if any
     llm_error: Optional[str] = None
 
 

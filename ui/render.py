@@ -157,10 +157,14 @@ def render_communications(comms: Communications, status: FinalStatus) -> None:
     tab_vendor, tab_internal = st.tabs(["📧 Vendor email", "🔒 Internal note (procurement)"])
     with tab_vendor:
         if comms.source == "gemini":
-            st.caption("✨ Drafted by Gemini from vendor-safe action items only, then checked by guardrails.")
+            model = f" ({comms.model})" if comms.model else ""
+            st.caption(f"✨ Drafted by Gemini{md_escape(model)} from vendor-safe action items only, "
+                       "then checked by guardrails.")
         else:
-            reason = f" ({comms.llm_error})" if comms.llm_error else ""
-            st.caption(f"📝 Deterministic template{md_escape(reason)}.")
+            reason = comms.llm_error or "template"
+            if len(reason) > 120 or "{" in reason:  # runs stored before errors were shortened
+                reason = "Gemini unavailable - template used"
+            st.caption(f"📝 Deterministic template · {md_escape(reason)}.")
         if status == FinalStatus.REJECTED:
             st.caption("Deliberately neutral: the vendor isn't told which control failed.")
         st.markdown(_email_html(comms.vendor_subject, comms.vendor_email), unsafe_allow_html=True)

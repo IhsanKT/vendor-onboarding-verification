@@ -36,7 +36,7 @@ def sidebar() -> None:
             st.slider("Seconds per stage", 0.1, 2.0, step=0.1, key="demo_delay")
         st.divider()
         if get_api_key():
-            st.markdown(f"✨ **Emails:** Gemini (`{DEFAULT_MODEL}`) with template fallback")
+            st.markdown(f"✨ **Emails:** Gemini (`{DEFAULT_MODEL}` + backups), template fallback")
         else:
             st.markdown("📝 **Emails:** deterministic template  \n"
                         "<small>Set `GEMINI_API_KEY` to enable Gemini drafting.</small>",
