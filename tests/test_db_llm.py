@@ -117,3 +117,24 @@ def test_good_llm_output_is_used(monkeypatch: pytest.MonkeyPatch) -> None:
     result = process_submission(sample.submission, [], TODAY, api_key="fake-key")
     assert result.communications.source == "gemini"
     assert result.communications.vendor_subject == "Two items needed"
+
+
+def test_init_db_survives_concurrent_first_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Two sessions racing on a fresh DB must not crash (Streamlit Cloud cold start).
+
+    Simulates the interleaving: run A sees an empty table, run B seeds and commits,
+    then A tries to seed too.
+    """
+    monkeypatch.setenv("VENDOR_DB_PATH", str(tmp_path / "race.db"))
+    real_seed = db.load_registry_seed
+    nested = {"done": False}
+
+    def seed_after_competitor():
+        if not nested["done"]:
+            nested["done"] = True
+            db.init_db()  # competing session wins the race and commits first
+        return real_seed()
+
+    monkeypatch.setattr(db, "load_registry_seed", seed_after_competitor)
+    db.init_db()
+    assert len(db.get_registry()) == 8

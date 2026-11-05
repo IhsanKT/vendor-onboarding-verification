@@ -82,10 +82,14 @@ def init_db() -> None:
 
 
 def _seed_registry(conn: sqlite3.Connection) -> None:
-    """Load data/existing_vendors.json into the vendor master table."""
+    """Load data/existing_vendors.json into the vendor master table.
+
+    OR IGNORE makes seeding race-safe: on a cold start several Streamlit sessions can
+    all see an empty table, and the ones that lose the race must not crash the app.
+    """
     rows = [(v.vendor_id, v.vendor_name, v.gstin, v.pan, v.bank_account_number, v.ifsc,
              v.bank_account_holder_name, v.onboarded_on.isoformat()) for v in load_registry_seed()]
-    conn.executemany("INSERT INTO existing_vendors VALUES (?, ?, ?, ?, ?, ?, ?, ?)", rows)
+    conn.executemany("INSERT OR IGNORE INTO existing_vendors VALUES (?, ?, ?, ?, ?, ?, ?, ?)", rows)
 
 
 def reset_demo_data() -> None:
